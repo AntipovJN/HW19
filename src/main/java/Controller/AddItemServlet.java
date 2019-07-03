@@ -18,8 +18,6 @@ public class AddItemServlet extends HttpServlet {
     private static final AccountService ACCOUNT_SERVICE = AccountService.instance();
     private static final ItemDao ITEM_DAO = ItemDao.instance();
 
-    private boolean invalidData = false;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (!ACCOUNT_SERVICE.getUser().getLogin().equals("admin")) {
@@ -39,7 +37,7 @@ public class AddItemServlet extends HttpServlet {
         }
         if (name.isEmpty() || imgLink.isEmpty() || price < 0) {
             req.setAttribute("isEmpty", "All fields must be initialized and price must be biggest than 0.");
-            req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req,resp);
+            req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
         } else {
             ITEM_DAO.add(new Item(name, imgLink, price));
             resp.sendRedirect("/pokupka");

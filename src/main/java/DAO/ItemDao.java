@@ -5,6 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
+
 import java.util.List;
 
 public class ItemDao {
@@ -12,8 +13,8 @@ public class ItemDao {
     private static ItemDao itemDao;
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
 
-    public static ItemDao instance(){
-        if(itemDao==null){
+    public static ItemDao instance() {
+        if (itemDao == null) {
             itemDao = new ItemDao();
         }
         return itemDao;
@@ -28,7 +29,7 @@ public class ItemDao {
         return (List<Item>) criteria.list();
     }
 
-    public void add (Item item){
+    public void add(Item item) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(item);
@@ -36,5 +37,4 @@ public class ItemDao {
         session.close();
 
     }
-    }
-//String name, String imgLink, double price
+}

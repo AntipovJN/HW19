@@ -1,6 +1,5 @@
 package Service;
 
-
 import Entity.User;
 import DAO.UserDAO;
 
@@ -46,8 +45,9 @@ public class AccountService {
     public boolean isLogin() {
         return isLogin;
     }
-    public void endSession(){
-        isLogin=false;
-        user=null;
+
+    public void endSession() {
+        isLogin = false;
+        user = null;
     }
 }

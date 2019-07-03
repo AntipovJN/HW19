@@ -33,10 +33,10 @@ public class SignInServlet extends HttpServlet {
         if (ACCOUNT_SERVICE.signIn(login, password)) {
             resp.sendRedirect("/pokupka");
         } else {
-        req.setAttribute("isInvalid", "Invalid login or pass");
-        req.setAttribute("process", "Sign In");
-        req.setAttribute("action", "login");
-        req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
-    }
+            req.setAttribute("isInvalid", "Invalid login or pass");
+            req.setAttribute("process", "Sign In");
+            req.setAttribute("action", "login");
+            req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
+        }
     }
 }
