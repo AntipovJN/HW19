@@ -8,7 +8,7 @@
 </head>
 <body>
 <form action="/${action}" method="POST">
-    Login: <input type="text" name="login"/>
+    Login: <input type="text" name="login" value="${login}"/>
     Password: <input type="password" name="password"/>
    <c:if test="${action=='register'}">
             Password again: <input type="password" name="passwordRepeat"/>

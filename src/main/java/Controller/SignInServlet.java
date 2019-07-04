@@ -36,6 +36,7 @@ public class SignInServlet extends HttpServlet {
             req.setAttribute("isInvalid", "Invalid login or pass");
             req.setAttribute("process", "Sign In");
             req.setAttribute("action", "login");
+            req.setAttribute("login", login);
             req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
         }
     }

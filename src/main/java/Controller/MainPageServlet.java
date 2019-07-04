@@ -1,6 +1,6 @@
 package Controller;
 
-import DAO.ItemDao;
+import DAO.Implementations.ItemDaoHibernateImpl;
 import Service.AccountService;
 
 import javax.servlet.ServletException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/pokupka", loadOnStartup = 1)
 public class MainPageServlet extends HttpServlet {
     private static final AccountService ACCOUNT_SERVICE = AccountService.instance();
-    private static final ItemDao ITEM_DAO = ItemDao.instance();
+    private static final ItemDaoHibernateImpl ITEM_DAO = ItemDaoHibernateImpl.instance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

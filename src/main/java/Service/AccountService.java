@@ -1,14 +1,14 @@
 package Service;
 
 import Entity.User;
-import DAO.UserDAO;
+import DAO.Implementations.UserDaoHibernateImpl;
 
 public class AccountService {
 
     private User user;
     private boolean isLogin;
     private static AccountService accountService;
-    private UserDAO userDAO = UserDAO.instance();
+    private UserDaoHibernateImpl userDAO = UserDaoHibernateImpl.instance();
 
     public static AccountService instance() {
         if (accountService == null) {
@@ -21,7 +21,7 @@ public class AccountService {
     }
 
     public boolean signIn(String login, String pass) {
-        User userDB = UserDAO.instance().getUserByLogin(login);
+        User userDB = UserDaoHibernateImpl.instance().getUserByLogin(login);
         if (userDB != null) {
             if (userDB.getPassword().equals(pass)) {
                 user = userDB;

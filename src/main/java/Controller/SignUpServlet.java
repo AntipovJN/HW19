@@ -35,6 +35,7 @@ public class SignUpServlet extends HttpServlet {
             req.setAttribute("isInvalid", "Login was taken or different passwords in fields");
             req.setAttribute("process", "Sign Up");
             req.setAttribute("action", "register");
+            req.setAttribute("login", login);
             req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
         }
     }

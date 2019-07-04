@@ -1,6 +1,6 @@
 package Controller;
 
-import DAO.ItemDao;
+import DAO.Implementations.ItemDaoHibernateImpl;
 import Entity.Item;
 import Service.AccountService;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class AddItemServlet extends HttpServlet {
 
     private static final AccountService ACCOUNT_SERVICE = AccountService.instance();
-    private static final ItemDao ITEM_DAO = ItemDao.instance();
+    private static final ItemDaoHibernateImpl ITEM_DAO = ItemDaoHibernateImpl.instance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

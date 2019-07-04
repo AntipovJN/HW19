@@ -1,5 +1,6 @@
-package DAO;
+package DAO.Implementations;
 
+import DAO.Interfaces.UserDao;
 import Entity.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -7,24 +8,26 @@ import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
-public class UserDAO {
+public class UserDaoHibernateImpl implements UserDao {
 
-    private static UserDAO userDAO;
+    private static UserDaoHibernateImpl userDAO;
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
 
-    public static UserDAO instance() {
+    public static UserDaoHibernateImpl instance() {
         if (userDAO == null) {
-            userDAO = new UserDAO();
+            userDAO = new UserDaoHibernateImpl();
         }
         return userDAO;
     }
 
-    private UserDAO() {
+    private UserDaoHibernateImpl() {
     }
 
+    @Override
     public boolean addUser(String login, String password) {
-        if ((login == null) || (password == null) || (login.equals("")) || (password.equals(""))) {
+        if ((Objects.isNull(login)) || Objects.isNull(password) || (login.isEmpty()) || (password.isEmpty())) {
             return false;
         }
         if(getUserByLogin(login)==null) {
@@ -38,12 +41,14 @@ public class UserDAO {
         return false;
     }
 
+    @Override
     public User getUserByLogin(String login) {
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM User WHERE login='" + login + "'");
+        Query query = session.createQuery("from User where login=:userLogin");
+        query.setString("userLogin",login);
         try {
-        User u = (User) query.iterate().next();
-        User user = new User (u.getLogin(),u.getPassword());
+        User hibernateUser = (User) query.iterate().next();
+        User user = new User (hibernateUser.getLogin(),hibernateUser.getPassword());
         session.close();
            return user;
        }catch (NoSuchElementException ex) {
