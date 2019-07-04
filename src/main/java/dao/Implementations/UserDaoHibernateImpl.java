@@ -1,6 +1,6 @@
-package DAO.Implementations;
+package dao.Implementations;
 
-import DAO.Interfaces.UserDao;
+import dao.Interfaces.UserDao;
 import Entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -30,10 +29,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public boolean addUser(String login, String password) {
-        if ((Objects.isNull(login)) || Objects.isNull(password) || (login.isEmpty()) || (password.isEmpty())) {
+        if ((Objects.isNull(login)) || Objects.isNull(password)
+                || (login.isEmpty()) || (password.isEmpty())) {
             return false;
         }
-        if(getUserByLogin(login)==null) {
+        if (getUserByLogin(login) == null) {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             session.save(new User(login, password));
@@ -48,22 +48,21 @@ public class UserDaoHibernateImpl implements UserDao {
     public User getUserByLogin(String login) {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("from User where login=:userLogin");
-        query.setString("userLogin",login);
+        query.setString("userLogin", login);
         try {
-        User hibernateUser = (User) query.iterate().next();
-        User user = new User (hibernateUser.getLogin(),hibernateUser.getPassword());
-        session.close();
-           return user;
-       }catch (NoSuchElementException ex) {
-           return null;
-       }
-
+            User hibernateUser = (User) query.iterate().next();
+            User user = new User(hibernateUser.getLogin(), hibernateUser.getPassword());
+            session.close();
+            return user;
+        } catch (NoSuchElementException ex) {
+            return null;
+        }
     }
 
     @Override
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(User.class);
-        return (List<User>)criteria.list();
+        return (List<User>) criteria.list();
     }
 }

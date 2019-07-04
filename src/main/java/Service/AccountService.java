@@ -1,14 +1,15 @@
 package Service;
 
 import Entity.User;
-import DAO.Implementations.UserDaoHibernateImpl;
+import dao.Implementations.UserDaoHibernateImpl;
+import dao.Interfaces.UserDao;
 
 public class AccountService {
 
     private User user;
     private boolean isLogin;
     private static AccountService accountService;
-    private UserDaoHibernateImpl userDAO = UserDaoHibernateImpl.instance();
+    private UserDao userDao = UserDaoHibernateImpl.instance();
 
     public static AccountService instance() {
         if (accountService == null) {
@@ -33,7 +34,7 @@ public class AccountService {
 
     public boolean signUp(String login, String pass, String passwordRepeat) {
         if (pass.equals(passwordRepeat)) {
-            return userDAO.addUser(login, pass);
+            return userDao.addUser(login, pass);
         }
         return false;
     }

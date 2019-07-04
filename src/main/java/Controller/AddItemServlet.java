@@ -1,7 +1,7 @@
 package Controller;
 
-import DAO.Implementations.ItemDaoHibernateImpl;
-import DAO.Interfaces.ItemDao;
+import dao.Implementations.ItemDaoHibernateImpl;
+import dao.Interfaces.ItemDao;
 import Entity.Item;
 import Service.AccountService;
 

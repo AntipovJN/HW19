@@ -1,9 +1,9 @@
 package Controller;
 
-import DAO.Implementations.ItemDaoHibernateImpl;
-import DAO.Implementations.UserDaoHibernateImpl;
-import DAO.Interfaces.ItemDao;
-import DAO.Interfaces.UserDao;
+import dao.Implementations.ItemDaoHibernateImpl;
+import dao.Implementations.UserDaoHibernateImpl;
+import dao.Interfaces.ItemDao;
+import dao.Interfaces.UserDao;
 import Service.AccountService;
 
 import javax.servlet.ServletException;

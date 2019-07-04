@@ -1,6 +1,6 @@
-package DAO.Implementations;
+package dao.Implementations;
 
-import DAO.Interfaces.ItemDao;
+import dao.Interfaces.ItemDao;
 import Entity.Item;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
