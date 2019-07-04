@@ -9,6 +9,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/exit")
 public class EndSessionServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if(AccountService.instance().isLogin()){

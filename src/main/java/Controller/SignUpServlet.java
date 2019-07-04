@@ -11,11 +11,12 @@ import java.io.IOException;
 
 @WebServlet(value = "/register")
 public class SignUpServlet extends HttpServlet {
+
     private static final AccountService ACCOUNT_SERVICE = AccountService.instance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (ACCOUNT_SERVICE.isLogin()) {
+        if (!ACCOUNT_SERVICE.getUser().getLogin().equals("admin")) {
             resp.sendRedirect("/pokupka");
             return;
         }

@@ -23,7 +23,7 @@ public class HibernateSessionFactoryUtil {
                 sessionFactory = configuration.buildSessionFactory(builder.build());
 
             } catch (Exception e) {
-                System.out.println("Исключение!" + e);
+                System.out.println("Something wrong with connection to DB" + e);
             }
         }
         return sessionFactory;

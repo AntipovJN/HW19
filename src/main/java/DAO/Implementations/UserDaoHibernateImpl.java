@@ -2,11 +2,14 @@ package DAO.Implementations;
 
 import DAO.Interfaces.UserDao;
 import Entity.User;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -55,5 +58,12 @@ public class UserDaoHibernateImpl implements UserDao {
            return null;
        }
 
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(User.class);
+        return (List<User>)criteria.list();
     }
 }
