@@ -1,6 +1,7 @@
 package Controller;
 
-import Service.Implementations.AccountServiceImpl;
+import Factory.ServiceFactories.AccountServiceFactory;
+import Service.Interfaces.AccountService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +12,12 @@ import java.io.IOException;
 @WebServlet(value = "/exit")
 public class EndSessionServlet extends HttpServlet {
 
+    private AccountService accountService = AccountServiceFactory.getAccountServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (AccountServiceImpl.instance().isLogin()) {
-            AccountServiceImpl.instance().endSession();
+        if (accountService.isLogin()) {
+            accountService.endSession();
         }
         resp.sendRedirect("/pokupka");
     }
