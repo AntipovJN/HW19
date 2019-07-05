@@ -1,6 +1,7 @@
 package Controller;
 
-import Service.AccountService;
+import Factory.ServiceFactories.AccountServiceFactory;
+import Service.Interfaces.AccountService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,10 +13,11 @@ import java.io.IOException;
 @WebServlet(value = "/login")
 public class SignInServlet extends HttpServlet {
 
-    private static final AccountService ACCOUNT_SERVICE = AccountService.instance();
+    private static final AccountService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         if (ACCOUNT_SERVICE.isLogin()) {
             resp.sendRedirect("/pokupka");
             return;
@@ -26,8 +28,8 @@ public class SignInServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         if (ACCOUNT_SERVICE.signIn(login, password)) {

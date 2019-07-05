@@ -1,6 +1,7 @@
 package Controller;
 
-import Service.AccountService;
+import Factory.ServiceFactories.AccountServiceFactory;
+import Service.Interfaces.AccountService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/register")
 public class SignUpServlet extends HttpServlet {
 
-    private static final AccountService ACCOUNT_SERVICE = AccountService.instance();
+    private static final AccountService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
