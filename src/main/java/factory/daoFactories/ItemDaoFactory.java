@@ -1,7 +1,7 @@
-package Factory.DaoFactories;
+package factory.daoFactories;
 
-import dao.Implementations.ItemDaoHibernateImpl;
-import dao.Interfaces.ItemDao;
+import dao.implementations.ItemDaoImpl;
+import dao.interfaces.ItemDao;
 
 public class ItemDaoFactory {
 
@@ -9,7 +9,7 @@ public class ItemDaoFactory {
 
     public static ItemDao getItemDaoHibernateImpl() {
         if (itemDao == null) {
-            itemDao = ItemDaoHibernateImpl.instance();
+            itemDao = ItemDaoImpl.instance();
         }
         return itemDao;
     }

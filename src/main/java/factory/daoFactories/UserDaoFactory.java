@@ -1,7 +1,7 @@
-package Factory.DaoFactories;
+package factory.daoFactories;
 
-import dao.Implementations.UserDaoHibernateImpl;
-import dao.Interfaces.UserDao;
+import dao.implementations.UserDaoImpl;
+import dao.interfaces.UserDao;
 
 public class UserDaoFactory {
 
@@ -9,7 +9,7 @@ public class UserDaoFactory {
 
     public static UserDao getUserDaoHibernateImpl() {
         if (userDao == null) {
-            userDao = UserDaoHibernateImpl.instance();
+            userDao = UserDaoImpl.instance();
         }
         return userDao;
     }

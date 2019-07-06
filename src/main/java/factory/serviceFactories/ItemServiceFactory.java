@@ -1,7 +1,7 @@
-package Factory.ServiceFactories;
+package factory.serviceFactories;
 
-import Service.Interfaces.ItemService;
-import Service.Implementations.ItemServiceImpl;
+import services.interfaces.ItemService;
+import services.implementations.ItemServiceImpl;
 
 public class ItemServiceFactory {
 

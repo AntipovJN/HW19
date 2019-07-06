@@ -1,28 +1,28 @@
-package Service.Implementations;
+package services.implementations;
 
-import Entity.User;
-import Factory.DaoFactories.UserDaoFactory;
-import Service.Interfaces.AccountService;
-import dao.Implementations.UserDaoHibernateImpl;
-import dao.Interfaces.UserDao;
+import entity.User;
+import factory.daoFactories.UserDaoFactory;
+import services.interfaces.UserService;
+import dao.interfaces.UserDao;
 
 import java.util.List;
+import java.util.Objects;
 
-public class AccountServiceImpl implements AccountService {
+public class UserServiceImpl implements UserService {
 
     private User user;
     private boolean isLogin;
-    private static AccountServiceImpl accountService;
+    private static UserServiceImpl accountService;
     private UserDao userDao = UserDaoFactory.getUserDaoHibernateImpl();
 
-    public static AccountServiceImpl instance() {
+    public static UserServiceImpl instance() {
         if (accountService == null) {
-            accountService = new AccountServiceImpl();
+            accountService = new UserServiceImpl();
         }
         return accountService;
     }
 
-    private AccountServiceImpl() {
+    private UserServiceImpl() {
     }
 
     @Override
@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public boolean signIn(String login, String pass) {
-        User userDB = UserDaoHibernateImpl.instance().getUserByLogin(login);
+        User userDB = userDao.getUserByLogin(login);
         if (userDB != null) {
             if (userDB.getPassword().equals(pass)) {
                 user = userDB;
@@ -43,9 +43,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean signUp(String login, String pass, String passwordRepeat) {
-        if (pass.equals(passwordRepeat)) {
-            return userDao.addUser(login, pass);
+    public boolean signUp(String login, String password, String passwordRepeat) {
+        if ((Objects.isNull(login)) || Objects.isNull(password) || Objects.isNull(passwordRepeat)
+                || (login.isEmpty()) || (password.isEmpty()) || (passwordRepeat.isEmpty())) {
+            return false;
+        }
+        if (password.equals(passwordRepeat)) {
+            return userDao.addUser(login, password);
         }
         return false;
     }

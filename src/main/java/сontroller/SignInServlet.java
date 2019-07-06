@@ -1,7 +1,7 @@
-package Controller;
+package сontroller;
 
-import Factory.ServiceFactories.AccountServiceFactory;
-import Service.Interfaces.AccountService;
+import factory.serviceFactories.AccountServiceFactory;
+import services.interfaces.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/login")
 public class SignInServlet extends HttpServlet {
 
-    private static final AccountService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

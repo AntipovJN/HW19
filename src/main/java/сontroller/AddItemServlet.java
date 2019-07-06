@@ -1,10 +1,11 @@
-package Controller;
+package сontroller;
 
-import Factory.ServiceFactories.AccountServiceFactory;
-import Factory.ServiceFactories.ItemServiceFactory;
-import Service.Interfaces.AccountService;
-import Service.Interfaces.ItemService;
-import Entity.Item;
+import factory.serviceFactories.AccountServiceFactory;
+import factory.serviceFactories.ItemServiceFactory;
+import services.interfaces.UserService;
+import services.interfaces.ItemService;
+import entity.Item;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +16,7 @@ import java.io.IOException;
 @WebServlet(value = "/additem")
 public class AddItemServlet extends HttpServlet {
 
-    private static final AccountService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
     private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
 
     @Override

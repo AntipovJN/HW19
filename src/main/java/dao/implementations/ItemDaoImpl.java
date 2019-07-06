@@ -1,7 +1,7 @@
-package dao.Implementations;
+package dao.implementations;
 
-import dao.Interfaces.ItemDao;
-import Entity.Item;
+import dao.interfaces.ItemDao;
+import entity.Item;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,19 +9,20 @@ import utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
 
-public class ItemDaoHibernateImpl implements ItemDao {
+public class ItemDaoImpl implements ItemDao {
 
-    private static ItemDaoHibernateImpl itemDao;
+    private static ItemDaoImpl itemDao;
+
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
 
-    public static ItemDaoHibernateImpl instance() {
+    public static ItemDaoImpl instance() {
         if (itemDao == null) {
-            itemDao = new ItemDaoHibernateImpl();
+            itemDao = new ItemDaoImpl();
         }
         return itemDao;
     }
 
-    private ItemDaoHibernateImpl() {
+    private ItemDaoImpl() {
     }
 
     public List<Item> getAll() {

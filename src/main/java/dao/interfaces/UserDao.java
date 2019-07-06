@@ -1,6 +1,6 @@
-package dao.Interfaces;
+package dao.interfaces;
 
-import Entity.User;
+import entity.User;
 
 import java.util.List;
 

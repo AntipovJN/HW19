@@ -1,7 +1,7 @@
-package Controller;
+package сontroller;
 
-import Factory.ServiceFactories.AccountServiceFactory;
-import Service.Interfaces.AccountService;
+import factory.serviceFactories.AccountServiceFactory;
+import services.interfaces.UserService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +12,11 @@ import java.io.IOException;
 @WebServlet(value = "/exit")
 public class EndSessionServlet extends HttpServlet {
 
-    private AccountService accountService = AccountServiceFactory.getAccountServiceImpl();
+    private UserService accountService = AccountServiceFactory.getAccountServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
         if (accountService.isLogin()) {
             accountService.endSession();
         }

@@ -1,7 +1,7 @@
 package utils;
 
-import Entity.Item;
-import Entity.User;
+import entity.Item;
+import entity.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;

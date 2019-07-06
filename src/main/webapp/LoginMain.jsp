@@ -1,4 +1,11 @@
+<%@ page import="factory.serviceFactories.AccountServiceFactory" %>
+<%@ page import="entity.User" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    User user = AccountServiceFactory.getAccountServiceImpl().getUser();
+    List<User> users = AccountServiceFactory.getAccountServiceImpl().getAll();
+%>
 <html>
 <head>
     <title>Main</title>
@@ -9,25 +16,24 @@
 <a href="/exit">
     <input type="submit" value="End session">
 </a>
-<c:if test="${userName=='admin'}">
-     <a href="/register">
-         <input type="submit" value="Add new user"/>
-     </a>
-</c:if>
+<% if (user.getLogin().equals("admin")) {
+    response.getWriter().write("<a href=\"/register\">" +
+            "<input type=\"submit\" value=\"Add User\"/></a>");
+}%>
 <a href="/items">
     List of Products
 </a>
 <table>
     <td>
-        <c:forEach items="${users}" var="user">
-            <tr>
-                <td>${user.login}</td>
-                <td>${user.password}</td>
-            </tr>
-        </c:forEach>
+        <% for (User currentUser : users) { %>
+        <tr>
+            <td><%=currentUser.getLogin()%>
+            </td>
+            <td><%=currentUser.getPassword()%>
+            </td>
+        </tr>
+        <%}%>
     </td>
 </table>
-<br>
-
 </body>
 </html>

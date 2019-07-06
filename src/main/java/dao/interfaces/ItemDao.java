@@ -1,10 +1,10 @@
-package Service.Interfaces;
+package dao.interfaces;
 
-import Entity.Item;
+import entity.Item;
 
 import java.util.List;
 
-public interface ItemService {
+public interface ItemDao {
 
     List<Item> getAll();
 

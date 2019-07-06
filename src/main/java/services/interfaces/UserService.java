@@ -1,10 +1,10 @@
-package Service.Interfaces;
+package services.interfaces;
 
-import Entity.User;
+import entity.User;
 
 import java.util.List;
 
-public interface AccountService {
+public interface UserService {
 
     List<User> getAll();
 

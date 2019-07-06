@@ -1,9 +1,9 @@
-package Service.Implementations;
+package services.implementations;
 
-import Entity.Item;
-import Factory.DaoFactories.ItemDaoFactory;
-import Service.Interfaces.ItemService;
-import dao.Interfaces.ItemDao;
+import entity.Item;
+import factory.daoFactories.ItemDaoFactory;
+import services.interfaces.ItemService;
+import dao.interfaces.ItemDao;
 
 import java.util.List;
 

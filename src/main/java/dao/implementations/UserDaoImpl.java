@@ -1,7 +1,7 @@
-package dao.Implementations;
+package dao.implementations;
 
-import dao.Interfaces.UserDao;
-import Entity.User;
+import dao.interfaces.UserDao;
+import entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -10,29 +10,25 @@ import utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
-public class UserDaoHibernateImpl implements UserDao {
+public class UserDaoImpl implements UserDao {
 
-    private static UserDaoHibernateImpl userDAO;
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
 
-    public static UserDaoHibernateImpl instance() {
-        if (userDAO == null) {
-            userDAO = new UserDaoHibernateImpl();
+    private static UserDaoImpl userDao;
+
+    public static UserDaoImpl instance() {
+        if (userDao == null) {
+            userDao = new UserDaoImpl();
         }
-        return userDAO;
+        return userDao;
     }
 
-    private UserDaoHibernateImpl() {
+    private UserDaoImpl() {
     }
 
     @Override
     public boolean addUser(String login, String password) {
-        if ((Objects.isNull(login)) || Objects.isNull(password)
-                || (login.isEmpty()) || (password.isEmpty())) {
-            return false;
-        }
         if (getUserByLogin(login) == null) {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
@@ -47,7 +43,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public User getUserByLogin(String login) {
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery("from User where login=:userLogin");
+        Query query = session.createQuery("FROM User WHERE login=:userLogin");
         query.setString("userLogin", login);
         try {
             User hibernateUser = (User) query.iterate().next();
