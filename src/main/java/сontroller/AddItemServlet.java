@@ -4,6 +4,7 @@ import factory.serviceFactories.SessionServiceFactory;
 import factory.serviceFactories.ItemServiceFactory;
 import services.interfaces.ItemService;
 import entity.Item;
+import services.interfaces.SessionService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,20 +17,24 @@ import java.io.IOException;
 public class AddItemServlet extends HttpServlet {
 
     private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
+    private static final SessionService SESSION_SERVICE = SessionServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("action", "/additem");
-        if (SessionServiceFactory.getInstance().isAdmin(req)) {
-            req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
+        if (!SESSION_SERVICE.isAdmin(req)) {
+            resp.sendRedirect("/items");
         }
-        resp.sendRedirect("/items");
+        req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        if (!SESSION_SERVICE.isAdmin(req)) {
+            resp.sendRedirect("/items");
+        }
         String name = req.getParameter("name");
         String imgLink = req.getParameter("img");
         double price = -1;

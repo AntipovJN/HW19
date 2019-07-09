@@ -2,13 +2,13 @@ package dao.implementations;
 
 import dao.interfaces.UserDao;
 import entity.User;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
-import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -16,6 +16,8 @@ import java.util.Objects;
 public class UserDaoImpl implements UserDao {
 
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
+    private static final Logger logger = Logger.getRootLogger();
+    private static final Logger daoUserLogger = Logger.getLogger(UserDao.class);
 
     @Override
     public boolean addUser(String login, String password) {
@@ -25,6 +27,7 @@ public class UserDaoImpl implements UserDao {
             session.save(new User(login, password));
             session.getTransaction().commit();
             session.close();
+            daoUserLogger.warn("Was add new User:" + login + " Password::" + password);
             return true;
         }
         return false;
@@ -32,7 +35,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByLogin(String login) {
-        if (Objects.isNull(login)) {
+        if (Objects.isNull(login) || login.isEmpty()) {
             return null;
         }
         Session session = sessionFactory.openSession();
@@ -59,6 +62,7 @@ public class UserDaoImpl implements UserDao {
         session.update(user);
         session.getTransaction().commit();
         session.close();
+        daoUserLogger.warn("Was update User:" + user.getLogin() + " ID::" + user.getId());
     }
 
     @Override
@@ -68,6 +72,8 @@ public class UserDaoImpl implements UserDao {
         session.delete(user);
         session.getTransaction().commit();
         session.close();
+        daoUserLogger.warn("Was removed User:" + user.getLogin() + " ID::" + user.getId());
+
     }
 
     @Override
@@ -87,6 +93,7 @@ public class UserDaoImpl implements UserDao {
             session.close();
             return user;
         } catch (NoSuchElementException ex) {
+            logger.debug(ex.getMessage() + " " + ex.getStackTrace());
             return null;
         }
     }

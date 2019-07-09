@@ -2,6 +2,7 @@ package сontroller;
 
 import factory.serviceFactories.UserServiceFactory;
 import services.interfaces.UserService;
+import utils.ResponseUtil;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +18,8 @@ public class EndSessionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        if (accountService.isLogin(req)) {
-            accountService.endSession(req);
-        }
+        ResponseUtil.checkLoginResponse(req, resp);
+        accountService.endSession(req);
         resp.sendRedirect("/pokupka");
     }
 }

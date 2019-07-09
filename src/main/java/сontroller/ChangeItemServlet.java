@@ -1,62 +1,61 @@
 package сontroller;
 
-import dao.interfaces.ItemDao;
 import entity.Item;
-import factory.daoFactories.ItemDaoFactory;
-import factory.serviceFactories.SessionServiceFactory;
-import services.interfaces.SessionService;
+import factory.serviceFactories.ItemServiceFactory;
+import services.interfaces.ItemService;
+import utils.ResponseUtil;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.zip.DataFormatException;
 
 @WebServlet(value = "/items/change")
 public class ChangeItemServlet extends HttpServlet {
 
-
-    private static final SessionService SESSION_SERVICE = SessionServiceFactory.getInstance();
-    private static final ItemDao ITEM_DAO = ItemDaoFactory.getItemDaoHibernateImpl();
-    private Item item;
+    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (SESSION_SERVICE.isAdmin(req)) {
-            try {
-                item = ITEM_DAO.getItemById(Integer.parseInt(req.getParameter("id")));
-                req.setAttribute("action", "/items    n    /change");
-                req.setAttribute("name", item.getName());
-                req.setAttribute("img", item.getImg());
-                req.setAttribute("price", item.getPrice());
-            } catch (Exception e) {
-                resp.getWriter().println("Invalid id");
-            }
-            req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
-            return;
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+        ResponseUtil.isAdminResponse(req, resp);
+           try {
+            Item item = ITEM_SERVICE.getItemById(Integer.parseInt(req.getParameter("id")));
+            req.setAttribute("action", "/items/change");
+            req.setAttribute("name", item.getName());
+            req.setAttribute("img", item.getImg());
+            req.setAttribute("price", item.getPrice());
+            req.getSession().setAttribute("id",req.getParameter("id"));
+        } catch (Exception e) {
+            resp.getWriter().println("Invalid id");
         }
-        resp.sendRedirect("/pokupka");
+
+        req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (SESSION_SERVICE.isAdmin(req)) {
-            String name = req.getParameter("name");
-            String img = req.getParameter("img");
-            Double price = Double.valueOf(req.getParameter("price"));
-            if (!name.isEmpty() && !img.isEmpty() && price > 0) {
-                item.setName(name);
-                item.setImg(img);
-                item.setPrice(price);
-                ITEM_DAO.updateItem(item);
-            } else {
-                req.setAttribute("isEmpty", "Invalid data");
-                req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
-                return;
-            }
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+        ResponseUtil.isAdminResponse(req, resp);
+        String name = req.getParameter("name");
+        String img = req.getParameter("img");
+        try {
+            Item item = ITEM_SERVICE.getItemById((int) req.getSession().getAttribute("id"));
+            req.getSession().removeAttribute("id");
+            double price = Double.valueOf(req.getParameter("price"));
+            ITEM_SERVICE.updateItem(name, img, price, item);
+            resp.sendRedirect("/pokupka");
+        } catch (AuthenticationException e) {
+            req.setAttribute("isEmpty", e.getMessage());
+            req.setAttribute("name", name);
+            req.setAttribute("img",img);
+            req.setAttribute("action", "/items/change");
+            req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
         }
-        resp.sendRedirect("/pokupka");
     }
 }
 

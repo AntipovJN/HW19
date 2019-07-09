@@ -1,6 +1,9 @@
 package сontroller;
 
 import factory.serviceFactories.UserServiceFactory;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import services.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -18,31 +21,31 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (ACCOUNT_SERVICE.getUser(req).isPresent()) {
-            if (!ACCOUNT_SERVICE.getUser(req).get().getLogin().equals("admin")) {
-                resp.sendRedirect("/pokupka");
-                return;
-            }
+        if (!ACCOUNT_SERVICE.isLogin(req)
+                || ACCOUNT_SERVICE.getUserFromSession(req).get().getLogin().equals("admin")) {
+            req.setAttribute("process", "Sign Up");
+            req.setAttribute("action", "register");
+            req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
         }
-        req.setAttribute("process", "Sign Up");
-        req.setAttribute("action", "register");
-        req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        String passwordRepeat = req.getParameter("passwordRepeat");
-        if (ACCOUNT_SERVICE.signUp(login, password, passwordRepeat)) {
-            resp.sendRedirect("/pokupka");
-        } else {
-            req.setAttribute("process", "Sign Up");
-            req.setAttribute("action", "register");
-            req.setAttribute("isInvalid", "Login was taken or different passwords in fields");
-            req.setAttribute("login", login);
-            req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
+        if (!ACCOUNT_SERVICE.isLogin(req)
+                || ACCOUNT_SERVICE.getUserFromSession(req).get().getLogin().equals("admin")) {
+            String login = req.getParameter("login");
+            String password = req.getParameter("password");
+            String passwordRepeat = req.getParameter("passwordRepeat");
+            if (ACCOUNT_SERVICE.signUp(login, password, passwordRepeat)) {
+                resp.sendRedirect("/pokupka");
+            } else {
+                req.setAttribute("process", "Sign Up");
+                req.setAttribute("action", "register");
+                req.setAttribute("login", login);
+                req.setAttribute("isInvalid", "Login was taken or passwords are not equals");
+                req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
+            }
         }
     }
 }
