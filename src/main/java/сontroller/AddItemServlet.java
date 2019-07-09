@@ -1,8 +1,7 @@
 package сontroller;
 
-import factory.serviceFactories.AccountServiceFactory;
+import factory.serviceFactories.SessionServiceFactory;
 import factory.serviceFactories.ItemServiceFactory;
-import services.interfaces.UserService;
 import services.interfaces.ItemService;
 import entity.Item;
 
@@ -16,17 +15,16 @@ import java.io.IOException;
 @WebServlet(value = "/additem")
 public class AddItemServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
     private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (!ACCOUNT_SERVICE.getUser().getLogin().equals("admin")) {
-            resp.sendRedirect("/items");
-            return;
+        req.setAttribute("action", "/additem");
+        if (SessionServiceFactory.getInstance().isAdmin(req)) {
+            req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
         }
-        req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
+        resp.sendRedirect("/items");
     }
 
     @Override

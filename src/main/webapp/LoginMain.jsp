@@ -1,22 +1,24 @@
-<%@ page import="factory.serviceFactories.AccountServiceFactory" %>
+<%@ page import="factory.serviceFactories.UserServiceFactory" %>
 <%@ page import="entity.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="services.interfaces.SessionService" %>
+<%@ page import="factory.serviceFactories.SessionServiceFactory" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    User user = AccountServiceFactory.getAccountServiceImpl().getUser();
-    List<User> users = AccountServiceFactory.getAccountServiceImpl().getAll();
+    SessionService sessionService = SessionServiceFactory.getInstance();
+    List<User> users = UserServiceFactory.getUserServiceImpl().getAll();
 %>
 <html>
 <head>
     <title>Main</title>
 </head>
 <body>
-<H1>Hello ${userName}</H1>
+<H1>Hello <%sessionService.getUserFromSession(request).get().getLogin(); %></H1>
 <br/>
 <a href="/exit">
     <input type="submit" value="End session">
 </a>
-<% if (user.getLogin().equals("admin")) {
+<% if (sessionService.isAdmin(request)) {
     response.getWriter().write("<a href=\"/register\">" +
             "<input type=\"submit\" value=\"Add User\"/></a>");
 }%>
@@ -30,6 +32,14 @@
             <td><%=currentUser.getLogin()%>
             </td>
             <td><%=currentUser.getPassword()%>
+            </td>
+            <td>
+                <% if (sessionService.isAdmin(request)) {%>
+                <%="<a href = \"/users/remove?id=" + currentUser.getId() + "\"> remove user</a>" %><%}%>
+            </td>
+            <td>
+                <% if (sessionService.isAdmin(request)) {%>
+                <%="<a href = \"/users/change?id=" + currentUser.getId() + "\"> change user</a>"%><%}%>
             </td>
         </tr>
         <%}%>

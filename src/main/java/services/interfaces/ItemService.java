@@ -9,4 +9,6 @@ public interface ItemService {
     List<Item> getAll();
 
     void add(Item item);
+
+    void remove(int id);
 }

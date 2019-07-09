@@ -2,28 +2,20 @@ package services.implementations;
 
 import entity.User;
 import factory.daoFactories.UserDaoFactory;
+import factory.serviceFactories.SessionServiceFactory;
+import services.interfaces.SessionService;
 import services.interfaces.UserService;
 import dao.interfaces.UserDao;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    private User user;
-    private boolean isLogin;
-    private static UserServiceImpl accountService;
-    private UserDao userDao = UserDaoFactory.getUserDaoHibernateImpl();
-
-    public static UserServiceImpl instance() {
-        if (accountService == null) {
-            accountService = new UserServiceImpl();
-        }
-        return accountService;
-    }
-
-    private UserServiceImpl() {
-    }
+    private SessionService sessionService = SessionServiceFactory.getInstance();
+    private UserDao userDao = UserDaoFactory.getUserDaoImpl();
 
     @Override
     public List<User> getAll() {
@@ -31,15 +23,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean signIn(String login, String pass) {
+    public boolean signIn(String login, String pass, HttpServletRequest request) {
         User userDB = userDao.getUserByLogin(login);
         if (userDB != null) {
             if (userDB.getPassword().equals(pass)) {
-                user = userDB;
-                isLogin = true;
+                userDB.setAuthorized(true);
+                userDao.updateUser(userDB);
+                sessionService.setUserInSession(request, userDB);
+                return true;
             }
         }
-        return isLogin;
+        return false;
     }
 
     @Override
@@ -55,18 +49,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser() {
-        return user;
+    public Optional<User> getUser(HttpServletRequest request) {
+        return sessionService.getUserFromSession(request);
     }
 
     @Override
-    public boolean isLogin() {
-        return isLogin;
+    public boolean isLogin(HttpServletRequest request) {
+        return sessionService.isLogin(request);
     }
 
     @Override
-    public void endSession() {
-        isLogin = false;
-        user = null;
+    public void endSession(HttpServletRequest request) {
+        if (sessionService.getUserFromSession(request).isPresent()) {
+            User user = userDao.getUserById(sessionService.getUserFromSession(request).get().getId());
+            user.setAuthorized(false);
+            userDao.updateUser(user);
+        }
+        sessionService.removeUserFromSession(request);
     }
+
+    @Override
+    public void removeUser(int id) {
+        userDao.removeUser(userDao.getUserById(id));
+    }
+
+
 }

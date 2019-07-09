@@ -1,12 +1,12 @@
-<%@ page import="entity.User" %>
-<%@ page import="factory.serviceFactories.AccountServiceFactory" %>
 <%@ page import="java.util.List" %>
 <%@ page import="entity.Item" %>
 <%@ page import="factory.serviceFactories.ItemServiceFactory" %>
+<%@ page import="factory.serviceFactories.SessionServiceFactory" %>
+<%@ page import="services.interfaces.SessionService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-    User user = AccountServiceFactory.getAccountServiceImpl().getUser();
+    SessionService sessionService = SessionServiceFactory.getInstance();
     List<Item> items = ItemServiceFactory.getItemServiceImpl().getAll();
 %>
 <html>
@@ -14,7 +14,7 @@
     <title>Items</title>
 </head>
 <body>
-<% if (user.getLogin().equals("admin")) {
+<% if (sessionService.isAdmin(request)) {
     response.getWriter().write("<a href=\"/additem\">" +
             "<input type=\"submit\" value=\"Add new item\"/></a>");
 }%>
@@ -31,6 +31,14 @@
     <tr>
         <td><%=item.getPrice()%> UAH</td>
         <td> code: <%=item.getProductCode()%>
+        </td>
+        <td>
+            <% if (sessionService.isAdmin(request)) {%>
+            <%="<a href = \"/items/remove?id=" + item.getId() + "\"> remove item</a>" %><%}%>
+        </td>
+        <td>
+            <% if (sessionService.isAdmin(request)) {%>
+            <%="<a href = \"/items/change?id=" + item.getId() + "\"> change item</a>"%><%}%>
         </td>
     </tr>
     <%}%>

@@ -9,7 +9,7 @@ public class ItemServiceFactory {
 
     public static ItemService getItemServiceImpl() {
         if (itemService == null) {
-            itemService = ItemServiceImpl.instance();
+            itemService = new  ItemServiceImpl();
         }
         return itemService;
     }

@@ -1,6 +1,6 @@
 package сontroller;
 
-import factory.serviceFactories.AccountServiceFactory;
+import factory.serviceFactories.UserServiceFactory;
 import services.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -13,12 +13,12 @@ import java.io.IOException;
 @WebServlet(value = "/login")
 public class SignInServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getUserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (ACCOUNT_SERVICE.isLogin()) {
+        if (ACCOUNT_SERVICE.isLogin(req)) {
             resp.sendRedirect("/pokupka");
             return;
         }
@@ -32,7 +32,7 @@ public class SignInServlet extends HttpServlet {
             throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if (ACCOUNT_SERVICE.signIn(login, password)) {
+        if (ACCOUNT_SERVICE.signIn(login, password,req)) {
             resp.sendRedirect("/pokupka");
         } else {
             req.setAttribute("isInvalid", "Invalid login or pass");

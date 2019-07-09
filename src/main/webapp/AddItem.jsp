@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String isEmpty = request.getAttribute("isEmpty") != null ? request.getAttribute("isEmpty").toString() : "";
+    String action = request.getAttribute("action") !=null ? request.getAttribute("action").toString() : "";
 %>
 <html>
 <head>
@@ -9,7 +10,7 @@
 <body>
 <H2><%=isEmpty%>
 </H2>
-<form action="/additem" method="post">
+<form action="<%=action%>%>" method="post">
     <table>
         <tr>
             <td>Name</td>

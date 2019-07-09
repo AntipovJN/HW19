@@ -1,6 +1,6 @@
 package сontroller;
 
-import factory.serviceFactories.AccountServiceFactory;
+import factory.serviceFactories.UserServiceFactory;
 import services.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -9,18 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 @WebServlet(value = "/register")
 public class SignUpServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = AccountServiceFactory.getAccountServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getUserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (!Objects.isNull(ACCOUNT_SERVICE.getUser())) {
-            if (!ACCOUNT_SERVICE.getUser().getLogin().equals("admin")) {
+        if (ACCOUNT_SERVICE.getUser(req).isPresent()) {
+            if (!ACCOUNT_SERVICE.getUser(req).get().getLogin().equals("admin")) {
                 resp.sendRedirect("/pokupka");
                 return;
             }

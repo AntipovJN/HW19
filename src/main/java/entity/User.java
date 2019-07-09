@@ -18,6 +18,16 @@ public class User {
     private String login;
     @Column(name = "password")
     private String password;
+    @Column(name = "islogin")
+    private Boolean isAuthorized;
+
+    public boolean isAuthorized() {
+        return isAuthorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        isAuthorized = authorized;
+    }
 
     public User() {
     }
@@ -25,6 +35,7 @@ public class User {
     public User(String login, String password) {
         this.login = login;
         this.password = password;
+        this.isAuthorized = false;
     }
 
     public String getLogin() {

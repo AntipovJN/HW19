@@ -8,24 +8,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HibernateSessionFactoryUtil;
 
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class UserDaoImpl implements UserDao {
 
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
-
-    private static UserDaoImpl userDao;
-
-    public static UserDaoImpl instance() {
-        if (userDao == null) {
-            userDao = new UserDaoImpl();
-        }
-        return userDao;
-    }
-
-    private UserDaoImpl() {
-    }
 
     @Override
     public boolean addUser(String login, String password) {
@@ -42,17 +32,42 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByLogin(String login) {
+        if (Objects.isNull(login)) {
+            return null;
+        }
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("FROM User WHERE login=:userLogin");
         query.setString("userLogin", login);
-        try {
-            User hibernateUser = (User) query.iterate().next();
-            User user = new User(hibernateUser.getLogin(), hibernateUser.getPassword());
-            session.close();
-            return user;
-        } catch (NoSuchElementException ex) {
+        return getUserByQuery(query, session);
+    }
+
+    @Override
+    public User getUserById(int id) {
+        if (id == 0) {
             return null;
         }
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("FROM User WHERE id=:userId");
+        query.setInteger("userId", id);
+        return getUserByQuery(query, session);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.update(user);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    @Override
+    public void removeUser(User user) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.delete(user);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -60,5 +75,19 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(User.class);
         return (List<User>) criteria.list();
+    }
+
+    private User getUserByQuery(Query query, Session session) {
+        try {
+            User hibernateUser = (User) query.iterate().next();
+            User user = new User(hibernateUser.getLogin(), hibernateUser.getPassword());
+            user.setId(hibernateUser.getId());
+            user.setAuthorized(hibernateUser.isAuthorized());
+            user.setAuthorized(hibernateUser.isAuthorized());
+            session.close();
+            return user;
+        } catch (NoSuchElementException ex) {
+            return null;
+        }
     }
 }

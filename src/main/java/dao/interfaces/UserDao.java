@@ -10,5 +10,11 @@ public interface UserDao {
 
     User getUserByLogin(String login);
 
+    User getUserById(int id);
+
     List<User> getAllUsers();
+
+    void updateUser(User user);
+
+    void removeUser(User user);
 }

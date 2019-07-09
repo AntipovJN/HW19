@@ -1,5 +1,7 @@
 package сontroller;
 
+import factory.serviceFactories.SessionServiceFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,10 @@ public class ItemsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getServletContext().getRequestDispatcher("/Items.jsp").forward(req, resp);
+        if (SessionServiceFactory.getInstance().isLogin(req)) {
+            req.getServletContext().getRequestDispatcher("/Items.jsp").forward(req, resp);
+        } else {
+            resp.sendRedirect("/pokupka");
+        }
     }
 }

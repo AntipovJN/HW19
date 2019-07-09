@@ -7,9 +7,9 @@ public class UserDaoFactory {
 
     private static UserDao userDao;
 
-    public static UserDao getUserDaoHibernateImpl() {
+    public static UserDao getUserDaoImpl() {
         if (userDao == null) {
-            userDao = UserDaoImpl.instance();
+            userDao = new UserDaoImpl();
         }
         return userDao;
     }

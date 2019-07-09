@@ -9,4 +9,10 @@ public interface ItemDao {
     List<Item> getAll();
 
     void add(Item item);
+
+    void remove(int id);
+
+    Item getItemById(int id);
+
+    void updateItem(Item item);
 }
