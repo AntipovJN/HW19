@@ -17,7 +17,7 @@ import java.util.zip.DataFormatException;
 public class UserServiceImpl implements UserService {
 
     private SessionService sessionService = SessionServiceFactory.getInstance();
-    private UserDao userDao = UserDaoFactory.getUserDaoImpl();
+    private UserDao userDao = UserDaoFactory.getInstance();
 
     @Override
     public List<User> getAll() {
@@ -28,11 +28,11 @@ public class UserServiceImpl implements UserService {
     public boolean signIn(String login, String pass, HttpServletRequest request) {
         User userDB = userDao.getUserByLogin(login);
         if (!Objects.isNull(userDB) && userDB.getPassword().equals(pass)) {
-                userDB.setAuthorized(true);
-                userDao.updateUser(userDB);
-                sessionService.setUserInSession(request, userDB);
-                return true;
-            }
+            userDB.setAuthorized(true);
+            userDao.updateUser(userDB);
+            sessionService.setUserInSession(request, userDB);
+            return true;
+        }
         return false;
     }
 
@@ -78,9 +78,20 @@ public class UserServiceImpl implements UserService {
         userDao.removeUser(userDao.getUserById(id));
     }
 
-      @Override
+    @Override
     public void updateUser(User user) {
         userDao.updateUser(user);
+    }
+
+    @Override
+    public void updateUser(String login, String password, String repeatPassword, User user, HttpServletRequest request) throws DataFormatException, AuthenticationException {
+        if (Objects.isNull(login) || Objects.isNull(password) || Objects.isNull(repeatPassword)
+                || Objects.isNull(user) || login.isEmpty() || password.isEmpty() || !password.equals(repeatPassword)) {
+            throw new DataFormatException("Wrong data");
+        }
+        user.setLogin(login);
+        user.setPassword(password);
+        updateUser(user);
     }
 
     @Override
@@ -91,18 +102,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(String login) {
         return userDao.getUserByLogin(login);
-    }
-
-    @Override
-    public void updateUser(String login, String password, String repeatPassword, User user, HttpServletRequest request) throws DataFormatException, AuthenticationException {
-        if (Objects.isNull(login) || Objects.isNull(password) || Objects.isNull(repeatPassword)
-                || Objects.isNull(user) || login.isEmpty() || password.isEmpty() || !password.equals(repeatPassword)) {
-            throw new DataFormatException("Wrong data");
-        } if (userDao.getUserByLogin(login)!=null) {
-            throw new AuthenticationException("Login already used");
-        }
-        user.setLogin(login);
-        user.setPassword(password);
-        updateUser(user);
     }
 }

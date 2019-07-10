@@ -24,11 +24,11 @@ public interface UserService {
 
     void removeUser(int id, HttpServletRequest request);
 
-    void updateUser(User user);
-
     User getUser(int id);
 
     User getUser(String login);
+
+    void updateUser(User user);
 
     void updateUser(String login, String password,
                     String repeatPassword, User user, HttpServletRequest request) throws DataFormatException, AuthenticationException;

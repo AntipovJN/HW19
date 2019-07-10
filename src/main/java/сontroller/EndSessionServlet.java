@@ -13,13 +13,14 @@ import java.io.IOException;
 @WebServlet(value = "/exit")
 public class EndSessionServlet extends HttpServlet {
 
-    private UserService accountService = UserServiceFactory.getUserServiceImpl();
+    private static final UserService USER_SERVICE = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        ResponseUtil.checkLoginResponse(req, resp);
-        accountService.endSession(req);
+        if (ResponseUtil.checkLoginResponse(req, resp)) {
+            USER_SERVICE.endSession(req);
+        }
         resp.sendRedirect("/pokupka");
     }
 }

@@ -64,16 +64,15 @@ public class ItemDaoImpl implements ItemDao {
         session.getTransaction().commit();
         session.close();
         daoItemLogger.warn("Was remove Item ID:" + id);
-
     }
 
     private Item getUserByQuery(Query query, Session session) {
         try {
-            Item hibernateItem = (Item) query.iterate().next();
-            Item item = new Item(hibernateItem.getName()
-                    , hibernateItem.getImg(), hibernateItem.getPrice());
-            item.setId(hibernateItem.getId());
-            item.setProductCode(hibernateItem.getProductCode());
+            Item intermediateItem = (Item) query.iterate().next();
+            Item item = new Item(intermediateItem.getName()
+                    , intermediateItem.getImg(), intermediateItem.getPrice());
+            item.setId(intermediateItem.getId());
+            item.setProductCode(intermediateItem.getProductCode());
             session.close();
             return item;
         } catch (NoSuchElementException ex) {

@@ -7,7 +7,7 @@ public class ItemDaoFactory {
 
     private static ItemDao itemDao;
 
-    public static ItemDao getItemDaoHibernateImpl() {
+    public static ItemDao getInstance() {
         if (itemDao == null) {
             itemDao = new ItemDaoImpl();
         }

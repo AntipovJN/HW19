@@ -17,5 +17,6 @@ public interface ItemService {
 
     void updateItem(Item item);
 
-    void updateItem(String name, String img, double price, Item oldItem) throws  AuthenticationException;
+    void updateItem(String name, String img, double price, Item oldItem)
+            throws  AuthenticationException;
 }

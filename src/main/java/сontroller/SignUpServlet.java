@@ -1,9 +1,6 @@
 package сontroller;
 
 import factory.serviceFactories.UserServiceFactory;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import services.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -16,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/register")
 public class SignUpServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getUserServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -37,15 +34,15 @@ public class SignUpServlet extends HttpServlet {
             String login = req.getParameter("login");
             String password = req.getParameter("password");
             String passwordRepeat = req.getParameter("passwordRepeat");
-            if (ACCOUNT_SERVICE.signUp(login, password, passwordRepeat)) {
-                resp.sendRedirect("/pokupka");
-            } else {
+            if (!ACCOUNT_SERVICE.signUp(login, password, passwordRepeat)) {
                 req.setAttribute("process", "Sign Up");
                 req.setAttribute("action", "register");
                 req.setAttribute("login", login);
                 req.setAttribute("isInvalid", "Login was taken or passwords are not equals");
-                req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
+                req.getServletContext().getRequestDispatcher("/Authorization.jsp")
+                        .forward(req, resp);
             }
         }
+        resp.sendRedirect("/pokupka");
     }
 }

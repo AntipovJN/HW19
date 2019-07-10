@@ -31,6 +31,6 @@ public class SessionServiceImpl implements SessionService {
 
     public boolean isAdmin(HttpServletRequest request) {
         return getUserFromSession(request).isPresent()
-                & getUserFromSession(request).get().getLogin().equals("admin");
+                && getUserFromSession(request).get().getLogin().equals("admin");
     }
 }

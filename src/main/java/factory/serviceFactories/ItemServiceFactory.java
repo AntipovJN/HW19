@@ -7,7 +7,7 @@ public class ItemServiceFactory {
 
     private static ItemService itemService;
 
-    public static ItemService getItemServiceImpl() {
+    public static ItemService getInstance() {
         if (itemService == null) {
             itemService = new  ItemServiceImpl();
         }

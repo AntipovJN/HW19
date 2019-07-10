@@ -1,49 +1,43 @@
-<%@ page import="factory.serviceFactories.UserServiceFactory" %>
-<%@ page import="entity.User" %>
-<%@ page import="java.util.List" %>
-<%@ page import="services.interfaces.SessionService" %>
-<%@ page import="factory.serviceFactories.SessionServiceFactory" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-    SessionService sessionService = SessionServiceFactory.getInstance();
-    List<User> users = UserServiceFactory.getUserServiceImpl().getAll();
-%>
 <html>
 <head>
     <title>Main</title>
 </head>
 <body>
-<H1>Hello <%sessionService.getUserFromSession(request).get().getLogin(); %></H1>
+<H1>Hello ${userName}</H1>
 <br/>
 <a href="/exit">
     <input type="submit" value="End session">
 </a>
-<% if (sessionService.isAdmin(request)) {
-    response.getWriter().write("<a href=\"/register\">" +
-            "<input type=\"submit\" value=\"Add User\"/></a>");
-}%>
+<c:if  test="${isAdmin==true}">
+    <a href="/register">
+            <input type="submit" value="Add User"/>
+    </a>
+</c:if>
 <a href="/items">
     List of Products
 </a>
 <table>
     <td>
-        <% for (User currentUser : users) { %>
+        <c:forEach items="${users}" var="user" >
         <tr>
-            <td><%=currentUser.getLogin()%>
-            </td>
-            <td><%=currentUser.getPassword()%>
+            <td>${user.login}</td>
+            <td>${user.password}</td>
+            <td>
+                <c:if test="${isAdmin==true}">
+                <a href = "/users/remove?id=${user.id}">
+                    remove user
+                </a>
             </td>
             <td>
-                <% if (sessionService.isAdmin(request)) {%>
-                <%="<a href = \"/users/remove?id=" + currentUser.getId() + "\"> remove user</a>" %><%}%>
-            </td>
-            <td>
-                <% if (sessionService.isAdmin(request)) {%>
-                <%="<a href = \"/users/change?id=" + currentUser.getId() + "\"> change user</a>"%><%}%>
+                <a href = "/users/edit?id=${user.id}">
+                        change user
+                    </a>"
+                </c:if>
             </td>
         </tr>
-        <%}%>
     </td>
+    </c:forEach>
 </table>
 </body>
 </html>

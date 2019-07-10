@@ -13,18 +13,19 @@ import java.io.IOException;
 @WebServlet(value = "/items/remove")
 public class RemoveItemsServlet extends HttpServlet {
 
-    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
+    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ResponseUtil.isAdminResponse(req, resp);
-        try {
-            int id = Integer.parseInt(req.getParameter("id"));
-            ITEM_SERVICE.remove(id);
-            resp.sendRedirect("/items");
-        } catch (NumberFormatException | NullPointerException e) {
-            resp.getWriter().println("<h1>Invalid id</h1> \n <a href=\"/pokupka\"> Get Back </a>");
+        if (ResponseUtil.isAdminResponse(req, resp)) {
+            try {
+                int id = Integer.parseInt(req.getParameter("id"));
+                ITEM_SERVICE.remove(id);
+            } catch (NumberFormatException | NullPointerException e) {
+                resp.getWriter().println("<h1>Invalid id</h1> \n <a href=\"/pokupka\"> Get Back </a>");
+                return;
+            }
         }
+        resp.sendRedirect("/items");
     }
 }
-
