@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ItemDaoImpl implements ItemDao {
+    
     private static final Logger logger = Logger.getRootLogger();
     private static final Logger daoItemLogger = Logger.getLogger(ItemDaoImpl.class);
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();

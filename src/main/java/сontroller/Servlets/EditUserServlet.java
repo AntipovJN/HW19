@@ -1,4 +1,4 @@
-package сontroller;
+package сontroller.Servlets;
 
 import entity.User;
 import factory.serviceFactories.UserServiceFactory;
@@ -21,45 +21,38 @@ public class EditUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (ResponseUtil.isAdminResponse(req, resp)) {
-            User user;
+        if (!resp.isCommitted()) {
             try {
-                user = USER_SERVICE.getUser(Integer.parseInt(req.getParameter("id")));
+                User user = USER_SERVICE.getUser(Integer.parseInt(req.getParameter("id")));
                 req.setAttribute("action", "users/edit");
                 req.setAttribute("process", "Edit user №" + req.getParameter("id"));
                 req.setAttribute("login", user.getLogin());
-                req.getSession().setAttribute("id", req.getParameter("id"));
+                req.setAttribute("id", req.getParameter("id"));
                 req.getServletContext().getRequestDispatcher("/Authorization.jsp")
                         .forward(req, resp);
             } catch (Exception e) {
                 resp.getWriter().println("Invalid id");
             }
-        } else {
-            resp.sendRedirect("/pokupka");
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        if (ResponseUtil.isAdminResponse(req, resp)) {
-            String login = req.getParameter("login");
-            String password = req.getParameter("password");
-            String repeatPassword = req.getParameter("passwordRepeat");
-            try {
-                User user = USER_SERVICE.getUser(Integer.valueOf(
-                        req.getSession().getAttribute("id").toString()));
-                USER_SERVICE.updateUser(login, password, repeatPassword, user, req);
-                resp.sendRedirect("/pokupka");
-            } catch (DataFormatException | AuthenticationException e) {
-                req.setAttribute("isInvalid", e.getMessage());
-                req.setAttribute("login", login);
-                req.setAttribute("action", "users/edit");
-                req.setAttribute("process", "Change user №" + req.getParameter("id"));
-                req.getServletContext().getRequestDispatcher("/Authorization.jsp")
-                        .forward(req, resp);
-            }
-        } else {
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        String repeatPassword = req.getParameter("passwordRepeat");
+        try {
+            User user = USER_SERVICE.getUser(Integer.valueOf(
+                    req.getParameter("id")));
+            USER_SERVICE.updateUser(login, password, repeatPassword, user, req);
             resp.sendRedirect("/pokupka");
+        } catch (DataFormatException | AuthenticationException e) {
+            req.setAttribute("isInvalid", e.getMessage());
+            req.setAttribute("login", login);
+            req.setAttribute("action", "users/edit");
+            req.setAttribute("process", "Change user №" + req.getParameter("id"));
+            req.getServletContext().getRequestDispatcher("/Authorization.jsp")
+                    .forward(req, resp);
         }
     }
 }

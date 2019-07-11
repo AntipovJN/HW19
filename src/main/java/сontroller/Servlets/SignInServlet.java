@@ -1,4 +1,4 @@
-package сontroller;
+package сontroller.Servlets;
 
 import factory.serviceFactories.UserServiceFactory;
 import org.apache.log4j.LogManager;

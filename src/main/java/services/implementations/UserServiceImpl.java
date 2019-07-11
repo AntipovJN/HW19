@@ -7,7 +7,6 @@ import services.interfaces.SessionService;
 import services.interfaces.UserService;
 import dao.interfaces.UserDao;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;

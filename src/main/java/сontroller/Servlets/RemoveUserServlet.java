@@ -1,4 +1,4 @@
-package сontroller;
+package сontroller.Servlets;
 
 import factory.serviceFactories.UserServiceFactory;
 import services.interfaces.UserService;
@@ -17,15 +17,16 @@ public class RemoveUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (ResponseUtil.isAdminResponse(req, resp)) {
-            try {
-                int id = Integer.parseInt(req.getParameter("id"));
-                USER_SERVICE.removeUser(id, req);
-            } catch (NumberFormatException | NullPointerException e) {
-                resp.getWriter().println("<h1>Invalid id</h1> \n <a href=\"/pokupka\"> Get Back </a>");
-                return;
-            }
-            resp.sendRedirect("/pokupka");
+        if (resp.isCommitted()) {
+            return;
         }
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            USER_SERVICE.removeUser(id, req);
+        } catch (NumberFormatException | NullPointerException e) {
+            resp.getWriter().println("<h1>Invalid id</h1> \n <a href=\"/pokupka\"> Get Back </a>");
+            return;
+        }
+        resp.sendRedirect("/pokupka");
     }
 }

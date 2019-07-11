@@ -1,4 +1,4 @@
-package сontroller;
+package сontroller.Servlets;
 
 import factory.serviceFactories.SessionServiceFactory;
 import factory.serviceFactories.ItemServiceFactory;

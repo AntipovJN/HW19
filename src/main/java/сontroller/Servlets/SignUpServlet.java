@@ -1,6 +1,8 @@
-package сontroller;
+package сontroller.Servlets;
 
+import factory.serviceFactories.SessionServiceFactory;
 import factory.serviceFactories.UserServiceFactory;
+import services.interfaces.SessionService;
 import services.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -14,6 +16,7 @@ import java.io.IOException;
 public class SignUpServlet extends HttpServlet {
 
     private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getInstance();
+    private static final SessionService SESSION_SERVICE = SessionServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

@@ -89,7 +89,7 @@ public class UserDaoImpl implements UserDao {
             User user = new User(intermediateUser.getLogin(), intermediateUser.getPassword());
             user.setId(intermediateUser.getId());
             user.setAuthorized(intermediateUser.isAuthorized());
-            user.setAuthorized(intermediateUser.isAuthorized());
+            user.setAccessLevel(intermediateUser.getAccessLevel());
             session.close();
             return user;
         } catch (NoSuchElementException ex) {

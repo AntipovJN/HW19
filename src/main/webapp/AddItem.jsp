@@ -22,7 +22,7 @@
             <td><input type="number" name="price" value="${price}"></td>
         </tr>
         <tr>
-           Item ID:${id}
+            <input type="hidden" name="id" value="${id}">
         </tr>
     </table>
     <input type="submit" value="${process}">

@@ -20,6 +20,16 @@ public class User {
     private String password;
     @Column(name = "islogin")
     private Boolean isAuthorized;
+    @Column(name = "acesslevel")
+    private String  accessLevel;
+
+    public String getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(String accessLevel) {
+        this.accessLevel = accessLevel;
+    }
 
     public boolean isAuthorized() {
         return isAuthorized;
@@ -36,6 +46,7 @@ public class User {
         this.login = login;
         this.password = password;
         this.isAuthorized = false;
+        this.accessLevel = "USER";
     }
 
     public String getLogin() {
@@ -61,4 +72,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
