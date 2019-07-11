@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ItemDaoImpl implements ItemDao {
+
     private static final Logger logger = Logger.getRootLogger();
     private static final Logger daoItemLogger = Logger.getLogger(ItemDaoImpl.class);
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
@@ -64,16 +65,15 @@ public class ItemDaoImpl implements ItemDao {
         session.getTransaction().commit();
         session.close();
         daoItemLogger.warn("Was remove Item ID:" + id);
-
     }
 
     private Item getUserByQuery(Query query, Session session) {
         try {
-            Item hibernateItem = (Item) query.iterate().next();
-            Item item = new Item(hibernateItem.getName()
-                    , hibernateItem.getImg(), hibernateItem.getPrice());
-            item.setId(hibernateItem.getId());
-            item.setProductCode(hibernateItem.getProductCode());
+            Item temporaryItem = (Item) query.iterate().next();
+            Item item = new Item(temporaryItem.getName()
+                    , temporaryItem.getImg(), temporaryItem.getPrice());
+            item.setId(temporaryItem.getId());
+            item.setProductCode(temporaryItem.getProductCode());
             session.close();
             return item;
         } catch (NoSuchElementException ex) {

@@ -85,11 +85,11 @@ public class UserDaoImpl implements UserDao {
 
     private User getUserByQuery(Query query, Session session) {
         try {
-            User hibernateUser = (User) query.iterate().next();
-            User user = new User(hibernateUser.getLogin(), hibernateUser.getPassword());
-            user.setId(hibernateUser.getId());
-            user.setAuthorized(hibernateUser.isAuthorized());
-            user.setAuthorized(hibernateUser.isAuthorized());
+            User temporaryUser = (User) query.iterate().next();
+            User user = new User(temporaryUser.getLogin(), temporaryUser.getPassword());
+            user.setId(temporaryUser.getId());
+            user.setAuthorized(temporaryUser.isAuthorized());
+            user.setAuthorized(temporaryUser.isAuthorized());
             session.close();
             return user;
         } catch (NoSuchElementException ex) {

@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     SessionService sessionService = SessionServiceFactory.getInstance();
-    List<User> users = UserServiceFactory.getUserServiceImpl().getAll();
+    List<User> users = UserServiceFactory.getInstance().getAll();
 %>
 <html>
 <head>
@@ -39,7 +39,7 @@
             </td>
             <td>
                 <% if (sessionService.isAdmin(request)) {%>
-                <%="<a href = \"/users/change?id=" + currentUser.getId() + "\"> change user</a>"%><%}%>
+                <%="<a href = \"/users/edit?id=" + currentUser.getId() + "\"> change user</a>"%><%}%>
             </td>
         </tr>
         <%}%>

@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     SessionService sessionService = SessionServiceFactory.getInstance();
-    List<Item> items = ItemServiceFactory.getItemServiceImpl().getAll();
+    List<Item> items = ItemServiceFactory.getInstance().getAll();
 %>
 <html>
 <head>
@@ -38,7 +38,7 @@
         </td>
         <td>
             <% if (sessionService.isAdmin(request)) {%>
-            <%="<a href = \"/items/change?id=" + item.getId() + "\"> change item</a>"%><%}%>
+            <%="<a href = \"/items/edit?id=" + item.getId() + "\"> change item</a>"%><%}%>
         </td>
     </tr>
     <%}%>

@@ -15,26 +15,23 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.zip.DataFormatException;
 
-@WebServlet(value = "/users/change")
-public class ChangeUserServlet extends HttpServlet {
+@WebServlet(value = "/users/edit")
+public class EditUserServlet extends HttpServlet {
 
-    private static final UserService USER_SERVICE = UserServiceFactory.getUserServiceImpl();
-    private User user;
+    private static final UserService USER_SERVICE = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         ResponseUtil.isAdminResponse(req, resp);
+        User user;
         try {
             user = USER_SERVICE.getUser(Integer.parseInt(req.getParameter("id")));
-        } catch (Exception e) {
-            user = null;
-        }
-        if (!Objects.isNull(user)) {
-            req.setAttribute("action", "users/change");
+            req.getSession().setAttribute("id",req.getParameter("id"));
+            req.setAttribute("action", "users/edit");
             req.setAttribute("process", "Change user №" + req.getParameter("id"));
             req.setAttribute("login", user.getLogin());
             req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
-        } else {
+        } catch (Exception e) {
             resp.getWriter().println("Nonexistent id");
         }
     }
@@ -46,12 +43,14 @@ public class ChangeUserServlet extends HttpServlet {
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("passwordRepeat");
         try {
+            User user = USER_SERVICE.getUser(Integer.parseInt(
+                    req.getSession().getAttribute("id").toString()));
             USER_SERVICE.updateUser(login, password, repeatPassword, user, req);
             resp.sendRedirect("/pokupka");
         } catch (DataFormatException | AuthenticationException e) {
             req.setAttribute("isInvalid", e.getMessage());
             req.setAttribute("login", login);
-            req.setAttribute("action", "users/change");
+            req.setAttribute("action", "users/edit");
             req.setAttribute("process", "Change user №" + req.getParameter("id"));
             req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
         }

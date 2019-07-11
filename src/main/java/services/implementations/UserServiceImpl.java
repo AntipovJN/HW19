@@ -17,7 +17,7 @@ import java.util.zip.DataFormatException;
 public class UserServiceImpl implements UserService {
 
     private SessionService sessionService = SessionServiceFactory.getInstance();
-    private UserDao userDao = UserDaoFactory.getUserDaoImpl();
+    private UserDao userDao = UserDaoFactory.getInstance();
 
     @Override
     public List<User> getAll() {
@@ -78,11 +78,6 @@ public class UserServiceImpl implements UserService {
         userDao.removeUser(userDao.getUserById(id));
     }
 
-      @Override
-    public void updateUser(User user) {
-        userDao.updateUser(user);
-    }
-
     @Override
     public User getUser(int id) {
         return userDao.getUserById(id);
@@ -91,6 +86,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(String login) {
         return userDao.getUserByLogin(login);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userDao.updateUser(user);
     }
 
     @Override

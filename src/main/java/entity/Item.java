@@ -78,9 +78,7 @@ public class Item {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Item item = (Item) o;
-
         if (getId() != item.getId()) return false;
         if (Double.compare(item.getPrice(), getPrice()) != 0) return false;
         if (getProductCode() != item.getProductCode()) return false;
@@ -111,5 +109,4 @@ public class Item {
                 ", productCode=" + productCode +
                 '}';
     }
-
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/pokupka", loadOnStartup = 1)
 public class MainPageServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getUserServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

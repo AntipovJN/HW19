@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/items/remove")
 public class RemoveItemsServlet extends HttpServlet {
 
-    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
+    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -27,4 +27,3 @@ public class RemoveItemsServlet extends HttpServlet {
         }
     }
 }
-

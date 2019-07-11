@@ -7,7 +7,7 @@ public class UserDaoFactory {
 
     private static UserDao userDao;
 
-    public static UserDao getUserDaoImpl() {
+    public static UserDao getInstance() {
         if (userDao == null) {
             userDao = new UserDaoImpl();
         }

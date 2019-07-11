@@ -7,7 +7,7 @@ public class UserServiceFactory {
 
     private static UserService userService;
 
-    public static UserService getUserServiceImpl() {
+    public static UserService getInstance() {
         if (userService == null) {
             userService = new UserServiceImpl();
         }

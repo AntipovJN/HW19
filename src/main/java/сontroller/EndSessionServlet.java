@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/exit")
 public class EndSessionServlet extends HttpServlet {
 
-    private UserService accountService = UserServiceFactory.getUserServiceImpl();
+    private UserService accountService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

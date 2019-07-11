@@ -1,9 +1,6 @@
 package сontroller;
 
 import factory.serviceFactories.UserServiceFactory;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import services.interfaces.UserService;
 
 import javax.servlet.ServletException;
@@ -16,7 +13,7 @@ import java.io.IOException;
 @WebServlet(value = "/register")
 public class SignUpServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getUserServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -44,7 +41,8 @@ public class SignUpServlet extends HttpServlet {
                 req.setAttribute("action", "register");
                 req.setAttribute("login", login);
                 req.setAttribute("isInvalid", "Login was taken or passwords are not equals");
-                req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
+                req.getServletContext().getRequestDispatcher("/Authorization.jsp")
+                        .forward(req, resp);
             }
         }
     }

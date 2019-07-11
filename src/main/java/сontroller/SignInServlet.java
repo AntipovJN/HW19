@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet(value = "/login")
 public class SignInServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getUserServiceImpl();
+    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getInstance();
     private static final Logger logger = LogManager.getLogger(SignInServlet.class);
 
     @Override
@@ -44,7 +44,6 @@ public class SignInServlet extends HttpServlet {
             req.setAttribute("login", login);
             logger.warn("Attempt to authorize with login:" + login + " ; Password:" + password
                     + " ; By " + req.getSession().getServletContext().getServerInfo());
-
             req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
         }
     }

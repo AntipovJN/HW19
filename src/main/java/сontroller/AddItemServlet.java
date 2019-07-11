@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet(value = "/additem")
 public class AddItemServlet extends HttpServlet {
 
-    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
+    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getInstance();
     private static final SessionService SESSION_SERVICE = SessionServiceFactory.getInstance();
 
     @Override

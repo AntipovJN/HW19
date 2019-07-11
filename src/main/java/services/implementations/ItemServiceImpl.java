@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class ItemServiceImpl implements ItemService {
 
-    private ItemDao itemDao = ItemDaoFactory.getItemDaoHibernateImpl();
+    private ItemDao itemDao = ItemDaoFactory.getInstance();
 
     @Override
     public List<Item> getAll() {

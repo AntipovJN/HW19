@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.zip.DataFormatException;
 
-@WebServlet(value = "/items/change")
-public class ChangeItemServlet extends HttpServlet {
+@WebServlet(value = "/items/edit")
+public class EditItemServlet extends HttpServlet {
 
-    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getItemServiceImpl();
+    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -25,7 +24,7 @@ public class ChangeItemServlet extends HttpServlet {
         ResponseUtil.isAdminResponse(req, resp);
            try {
             Item item = ITEM_SERVICE.getItemById(Integer.parseInt(req.getParameter("id")));
-            req.setAttribute("action", "/items/change");
+            req.setAttribute("action", "/items/edit");
             req.setAttribute("name", item.getName());
             req.setAttribute("img", item.getImg());
             req.setAttribute("price", item.getPrice());
@@ -33,7 +32,6 @@ public class ChangeItemServlet extends HttpServlet {
         } catch (Exception e) {
             resp.getWriter().println("Invalid id");
         }
-
         req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
     }
 
@@ -53,9 +51,8 @@ public class ChangeItemServlet extends HttpServlet {
             req.setAttribute("isEmpty", e.getMessage());
             req.setAttribute("name", name);
             req.setAttribute("img",img);
-            req.setAttribute("action", "/items/change");
+            req.setAttribute("action", "/items/edit");
             req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
         }
     }
 }
-
