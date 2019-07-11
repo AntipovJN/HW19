@@ -84,9 +84,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(String login, String password, String repeatPassword, User user, HttpServletRequest request) throws DataFormatException, AuthenticationException {
+    public void updateUser(String login, String password, String repeatPassword,
+                           User user, HttpServletRequest request) throws DataFormatException {
         if (Objects.isNull(login) || Objects.isNull(password) || Objects.isNull(repeatPassword)
-                || Objects.isNull(user) || login.isEmpty() || password.isEmpty() || !password.equals(repeatPassword)) {
+                || Objects.isNull(user) || login.isEmpty() || password.isEmpty() ||
+                !password.equals(repeatPassword)) {
             throw new DataFormatException("Wrong data");
         }
         user.setLogin(login);

@@ -69,8 +69,8 @@ public class ItemDaoImpl implements ItemDao {
     private Item getUserByQuery(Query query, Session session) {
         try {
             Item intermediateItem = (Item) query.iterate().next();
-            Item item = new Item(intermediateItem.getName()
-                    , intermediateItem.getImg(), intermediateItem.getPrice());
+            Item item = new Item(intermediateItem.getName(),
+                    intermediateItem.getImg(), intermediateItem.getPrice());
             item.setId(intermediateItem.getId());
             item.setProductCode(intermediateItem.getProductCode());
             session.close();
