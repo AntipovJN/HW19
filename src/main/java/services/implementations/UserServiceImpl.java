@@ -36,14 +36,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean signUp(String login, String password, String passwordRepeat) {
+    public boolean signUp(String login, String password, String passwordRepeat, String role) {
         if (Objects.isNull(login) || Objects.isNull(password)
                 || Objects.isNull(passwordRepeat) || (login.isEmpty())
                 || (password.isEmpty()) || passwordRepeat.isEmpty()
                 || !password.equals(passwordRepeat)) {
             return false;
         }
-        return userDao.addUser(login, password);
+        return userDao.addUser(login, password, role);
     }
 
     @Override

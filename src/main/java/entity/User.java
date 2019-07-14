@@ -21,14 +21,14 @@ public class User {
     @Column(name = "islogin")
     private Boolean isAuthorized;
     @Column(name = "acesslevel")
-    private String  accessLevel;
+    private String role;
 
-    public String getAccessLevel() {
-        return accessLevel;
+    public String getRole() {
+        return role;
     }
 
-    public void setAccessLevel(String accessLevel) {
-        this.accessLevel = accessLevel;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public boolean isAuthorized() {
@@ -42,11 +42,11 @@ public class User {
     public User() {
     }
 
-    public User(String login, String password) {
+    public User(String login, String password, String role) {
         this.login = login;
         this.password = password;
         this.isAuthorized = false;
-        this.accessLevel = "USER";
+        this.role = role;
     }
 
     public String getLogin() {

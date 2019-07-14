@@ -20,11 +20,11 @@ public class UserDaoImpl implements UserDao {
     private static final Logger daoUserLogger = Logger.getLogger(UserDao.class);
 
     @Override
-    public boolean addUser(String login, String password) {
+    public boolean addUser(String login, String password, String role) {
         if (getUserByLogin(login) == null) {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
-            session.save(new User(login, password));
+            session.save(new User(login, password,role));
             session.getTransaction().commit();
             session.close();
             daoUserLogger.warn("Was add new User:" + login + " Password::" + password);
@@ -86,10 +86,11 @@ public class UserDaoImpl implements UserDao {
     private User getUserByQuery(Query query, Session session) {
         try {
             User intermediateUser = (User) query.iterate().next();
-            User user = new User(intermediateUser.getLogin(), intermediateUser.getPassword());
+            User user = new User(intermediateUser.getLogin(), intermediateUser.getPassword(),
+                    intermediateUser.getRole());
             user.setId(intermediateUser.getId());
             user.setAuthorized(intermediateUser.isAuthorized());
-            user.setAccessLevel(intermediateUser.getAccessLevel());
+            user.setRole(intermediateUser.getRole());
             session.close();
             return user;
         } catch (NoSuchElementException ex) {

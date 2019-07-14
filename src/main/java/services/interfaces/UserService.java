@@ -14,7 +14,7 @@ public interface UserService {
 
     boolean signIn(String login, String pass, HttpServletRequest request);
 
-    boolean signUp(String login, String pass, String passwordRepeat);
+    boolean signUp(String login, String pass, String passwordRepeat, String role);
 
     Optional<User> getUserFromSession(HttpServletRequest request);
 

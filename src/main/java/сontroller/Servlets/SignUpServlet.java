@@ -37,7 +37,8 @@ public class SignUpServlet extends HttpServlet {
             String login = req.getParameter("login");
             String password = req.getParameter("password");
             String passwordRepeat = req.getParameter("passwordRepeat");
-            if (!ACCOUNT_SERVICE.signUp(login, password, passwordRepeat)) {
+            String role = req.getParameter("role");
+            if (!ACCOUNT_SERVICE.signUp(login, password, passwordRepeat, role)) {
                 req.setAttribute("process", "Sign Up");
                 req.setAttribute("action", "register");
                 req.setAttribute("login", login);

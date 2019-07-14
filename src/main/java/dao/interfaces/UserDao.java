@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface UserDao {
 
-    boolean addUser(String login, String password);
+    boolean addUser(String login, String password, String role);
 
     User getUserByLogin(String login);
 

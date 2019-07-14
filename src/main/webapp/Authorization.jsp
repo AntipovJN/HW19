@@ -12,7 +12,10 @@
     Password: <input type="password" name="password"/>
     <c:if test="${action=='users/edit' or action=='register'}">
         Password again: <input type="password" name="passwordRepeat"/>
+       <p><input type="radio" name="role" value="ADMIN" /> Admin <br></p>
+        <p><input type="radio" name="role" value="USER"checked/> User <br> <br></p>
     </c:if>
+
     <p>${isInvalid}
     </p>
     <input type="submit" value="${process}">
