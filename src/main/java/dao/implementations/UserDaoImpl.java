@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
             session.save(new User(login, password));
             session.getTransaction().commit();
             session.close();
-            daoUserLogger.warn("Was add new User:" + login + " Password::" + password);
+            daoUserLogger.info("Was add new User:" + login + " Password::" + password);
             return true;
         }
         return false;
@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao {
         session.update(user);
         session.getTransaction().commit();
         session.close();
-        daoUserLogger.warn("Was update User:" + user.getLogin() + " ID::" + user.getId());
+        daoUserLogger.info("Was update User:" + user.getLogin() + " ID::" + user.getId());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
         session.delete(user);
         session.getTransaction().commit();
         session.close();
-        daoUserLogger.warn("Was removed User:" + user.getLogin() + " ID::" + user.getId());
+        daoUserLogger.info("Was removed User:" + user.getLogin() + " ID::" + user.getId());
 
     }
 
@@ -93,7 +93,7 @@ public class UserDaoImpl implements UserDao {
             session.close();
             return user;
         } catch (NoSuchElementException ex) {
-            logger.debug(ex.getMessage() + " " + ex.getStackTrace());
+            logger.error(ex.getMessage() + " " + ex.getStackTrace());
             return null;
         }
     }

@@ -13,13 +13,13 @@ import java.io.IOException;
 @WebServlet(value = "/register")
 public class SignUpServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (!ACCOUNT_SERVICE.isLogin(req)
-                || ACCOUNT_SERVICE.getUserFromSession(req).get().getLogin().equals("admin")) {
+        if (!userService.isLogin(req)
+                || userService.getUserFromSession(req).get().getLogin().equals("admin")) {
             req.setAttribute("process", "Sign Up");
             req.setAttribute("action", "register");
             req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
@@ -29,12 +29,12 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (!ACCOUNT_SERVICE.isLogin(req)
-                || ACCOUNT_SERVICE.getUserFromSession(req).get().getLogin().equals("admin")) {
+        if (!userService.isLogin(req)
+                || userService.getUserFromSession(req).get().getLogin().equals("admin")) {
             String login = req.getParameter("login");
             String password = req.getParameter("password");
             String passwordRepeat = req.getParameter("passwordRepeat");
-            if (ACCOUNT_SERVICE.signUp(login, password, passwordRepeat)) {
+            if (userService.signUp(login, password, passwordRepeat)) {
                 resp.sendRedirect("/pokupka");
             } else {
                 req.setAttribute("process", "Sign Up");

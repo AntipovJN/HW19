@@ -16,14 +16,14 @@ import java.io.IOException;
 @WebServlet(value = "/additem")
 public class AddItemServlet extends HttpServlet {
 
-    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getInstance();
-    private static final SessionService SESSION_SERVICE = SessionServiceFactory.getInstance();
+    private static final ItemService itemService = ItemServiceFactory.getInstance();
+    private static final SessionService sessionService = SessionServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("action", "/additem");
-        if (!SESSION_SERVICE.isAdmin(req)) {
+        if (!sessionService.isAdmin(req)) {
             resp.sendRedirect("/items");
         }
         req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
@@ -32,7 +32,7 @@ public class AddItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (!SESSION_SERVICE.isAdmin(req)) {
+        if (!sessionService.isAdmin(req)) {
             resp.sendRedirect("/items");
         }
         String name = req.getParameter("name");
@@ -46,7 +46,7 @@ public class AddItemServlet extends HttpServlet {
                     "All fields must be initialized and price must be biggest than 0.");
             req.getServletContext().getRequestDispatcher("/AddItem.jsp").forward(req, resp);
         } else {
-            ITEM_SERVICE.add(new Item(name, imgLink, price));
+            itemService.add(new Item(name, imgLink, price));
             resp.sendRedirect("/items");
         }
     }

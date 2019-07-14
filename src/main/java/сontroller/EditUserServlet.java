@@ -12,20 +12,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.zip.DataFormatException;
 
 @WebServlet(value = "/users/edit")
 public class EditUserServlet extends HttpServlet {
 
-    private static final UserService USER_SERVICE = UserServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         ResponseUtil.isAdminResponse(req, resp);
         User user;
         try {
-            user = USER_SERVICE.getUser(Integer.parseInt(req.getParameter("id")));
+            user = userService.getUser(Integer.parseInt(req.getParameter("id")));
             req.getSession().setAttribute("id",req.getParameter("id"));
             req.setAttribute("action", "users/edit");
             req.setAttribute("process", "Change user №" + req.getParameter("id"));
@@ -43,9 +42,9 @@ public class EditUserServlet extends HttpServlet {
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("passwordRepeat");
         try {
-            User user = USER_SERVICE.getUser(Integer.parseInt(
+            User user = userService.getUser(Integer.parseInt(
                     req.getSession().getAttribute("id").toString()));
-            USER_SERVICE.updateUser(login, password, repeatPassword, user, req);
+            userService.updateUser(login, password, repeatPassword, user, req);
             resp.sendRedirect("/pokupka");
         } catch (DataFormatException | AuthenticationException e) {
             req.setAttribute("isInvalid", e.getMessage());

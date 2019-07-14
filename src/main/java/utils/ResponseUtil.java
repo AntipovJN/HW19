@@ -21,8 +21,8 @@ public class ResponseUtil {
         return true;
     }
 
-    public static boolean checkLoginResponse(HttpServletRequest request
-            , HttpServletResponse response) throws IOException {
+    public static boolean checkLoginResponse(HttpServletRequest request,
+                                             HttpServletResponse response) throws IOException {
         if (!SESSION_SERVICE.isLogin(request)) {
             response.sendRedirect(MAIN_PAGE);
             return false;
@@ -30,8 +30,8 @@ public class ResponseUtil {
         return false;
     }
 
-    public static boolean checkNotLoginResponse(HttpServletRequest request
-            , HttpServletResponse response) throws IOException {
+    public static boolean checkNotLoginResponse(HttpServletRequest request,
+                                                HttpServletResponse response) throws IOException {
         if (SESSION_SERVICE.isLogin(request)) {
             response.sendRedirect(MAIN_PAGE);
             return false;

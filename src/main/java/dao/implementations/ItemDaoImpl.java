@@ -33,7 +33,7 @@ public class ItemDaoImpl implements ItemDao {
         session.save(item);
         session.getTransaction().commit();
         session.close();
-        daoItemLogger.warn("Was add new Item:" + item.getName() + " ID:" + item.getId());
+        daoItemLogger.info("Was add new Item:" + item.getName() + " ID:" + item.getId());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ItemDaoImpl implements ItemDao {
         session.update(item);
         session.getTransaction().commit();
         session.close();
-        daoItemLogger.warn("Was update Item:" + item.getName() + " ID:" + item.getId());
+        daoItemLogger.info("Was update Item:" + item.getName() + " ID:" + item.getId());
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ItemDaoImpl implements ItemDao {
         session.delete(getItemById(id));
         session.getTransaction().commit();
         session.close();
-        daoItemLogger.warn("Was remove Item ID:" + id);
+        daoItemLogger.info("Was remove Item ID:" + id);
     }
 
     private Item getUserByQuery(Query query, Session session) {
@@ -77,7 +77,7 @@ public class ItemDaoImpl implements ItemDao {
             session.close();
             return item;
         } catch (NoSuchElementException ex) {
-            logger.debug(ex.getMessage() + " " + ex.getStackTrace());
+            logger.error(ex.getMessage() + " " + ex.getStackTrace());
             return null;
         }
     }

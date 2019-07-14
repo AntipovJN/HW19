@@ -16,14 +16,14 @@ import java.io.IOException;
 @WebServlet(value = "/items/edit")
 public class EditItemServlet extends HttpServlet {
 
-    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getInstance();
+    private static final ItemService itemService = ItemServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         ResponseUtil.isAdminResponse(req, resp);
            try {
-            Item item = ITEM_SERVICE.getItemById(Integer.parseInt(req.getParameter("id")));
+            Item item = itemService.getItemById(Integer.parseInt(req.getParameter("id")));
             req.setAttribute("action", "/items/edit");
             req.setAttribute("name", item.getName());
             req.setAttribute("img", item.getImg());
@@ -42,10 +42,10 @@ public class EditItemServlet extends HttpServlet {
         String name = req.getParameter("name");
         String img = req.getParameter("img");
         try {
-            Item item = ITEM_SERVICE.getItemById((int) req.getSession().getAttribute("id"));
+            Item item = itemService.getItemById((int) req.getSession().getAttribute("id"));
             req.getSession().removeAttribute("id");
             double price = Double.valueOf(req.getParameter("price"));
-            ITEM_SERVICE.updateItem(name, img, price, item);
+            itemService.updateItem(name, img, price, item);
             resp.sendRedirect("/pokupka");
         } catch (AuthenticationException e) {
             req.setAttribute("isEmpty", e.getMessage());

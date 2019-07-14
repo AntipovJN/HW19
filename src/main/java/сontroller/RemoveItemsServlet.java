@@ -4,6 +4,7 @@ import factory.serviceFactories.ItemServiceFactory;
 import services.interfaces.ItemService;
 import utils.ResponseUtil;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,17 +14,17 @@ import java.io.IOException;
 @WebServlet(value = "/items/remove")
 public class RemoveItemsServlet extends HttpServlet {
 
-    private static final ItemService ITEM_SERVICE = ItemServiceFactory.getInstance();
+    private static final ItemService itemService = ItemServiceFactory.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         ResponseUtil.isAdminResponse(req, resp);
         try {
             int id = Integer.parseInt(req.getParameter("id"));
-            ITEM_SERVICE.remove(id);
+            itemService.remove(id);
             resp.sendRedirect("/items");
         } catch (NumberFormatException | NullPointerException e) {
-            resp.getWriter().println("<h1>Invalid id</h1> \n <a href=\"/pokupka\"> Get Back </a>");
+            req.getServletContext().getRequestDispatcher("/EditErrorPage.jsp").forward(req,resp);
         }
     }
 }

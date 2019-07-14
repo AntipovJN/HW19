@@ -13,12 +13,12 @@ import java.io.IOException;
 @WebServlet(value = "/pokupka", loadOnStartup = 1)
 public class MainPageServlet extends HttpServlet {
 
-    private static final UserService ACCOUNT_SERVICE = UserServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if (ACCOUNT_SERVICE.isLogin(req)) {
+        if (userService.isLogin(req)) {
             req.getServletContext().getRequestDispatcher("/LoginMain.jsp").forward(req, resp);
         } else {
             req.getServletContext().getRequestDispatcher("/Main.jsp").forward(req, resp);
