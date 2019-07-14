@@ -39,7 +39,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItem(String name, String img, double price, Item oldItem) throws  AuthenticationException {
+    public void updateItem(String name, String img, double price, Item oldItem)
+            throws  AuthenticationException {
         if (Objects.isNull(name) || Objects.isNull(img) || price < 0 || Objects.isNull(oldItem)
                 || name.isEmpty() || img.isEmpty()) {
             throw new AuthenticationException("Wrong data");
