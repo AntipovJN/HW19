@@ -1,0 +1,30 @@
+package сontroller;
+
+import factory.serviceFactories.UserServiceFactory;
+import services.interfaces.UserService;
+import utils.ResponseUtil;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(value = "/users/remove")
+public class RemoveUserServlet extends HttpServlet {
+
+    private static final UserService userService = UserServiceFactory.getInstance();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        ResponseUtil.isAdminResponse(req, resp);
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            userService.removeUser(id, req);
+            resp.sendRedirect("/pokupka");
+        } catch (NumberFormatException | NullPointerException e) {
+            req.getServletContext().getRequestDispatcher("/EditErrorPage.jsp").forward(req,resp);
+        }
+    }
+}
