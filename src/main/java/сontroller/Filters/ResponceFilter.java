@@ -13,19 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(value = {"/pokupka"})
-public class UsersFilter implements Filter {
+@WebFilter(value = {"/users/edit","/users/remove"})
+public class ResponceFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (ResponseUtil.isAdminResponse((HttpServletRequest) request,
                 (HttpServletResponse) response)) {
-            request.setAttribute("isAdmin",true);
+          ((HttpServletResponse) response).sendRedirect("/pokupka");
         }
         chain.doFilter(request,response);
     }
