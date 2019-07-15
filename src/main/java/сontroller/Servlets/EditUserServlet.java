@@ -20,7 +20,8 @@ public class EditUserServlet extends HttpServlet {
     private static final UserService USER_SERVICE = UserServiceFactory.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
         if (!resp.isCommitted()) {
             try {
                 User user = USER_SERVICE.getUser(Integer.parseInt(req.getParameter("id")));
@@ -37,7 +38,8 @@ public class EditUserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("passwordRepeat");

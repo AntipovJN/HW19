@@ -9,9 +9,9 @@
 <a href="/exit">
     <input type="submit" value="End session">
 </a>
-<c:if  test="${isAdmin==true}">
+<c:if test="${isAdmin==true}">
     <a href="/register">
-            <input type="submit" value="Add User"/>
+        <input type="submit" value="Add User"/>
     </a>
 </c:if>
 <a href="/items">
@@ -19,25 +19,27 @@
 </a>
 <table>
     <td>
-        <c:forEach items="${users}" var="user" >
+        <c:if test="${isAdmin==true}">
+        <c:forEach items="${users}" var="user">
         <tr>
             <td>${user.login}</td>
             <td>${user.password}</td>
             <td>
                 <c:if test="${isAdmin==true}">
-                <a href = "/users/remove?id=${user.id}">
+                <a href="/users/remove?id=${user.id}">
                     remove user
                 </a>
             </td>
             <td>
-                <a href = "/users/edit?id=${user.id}">
-                        change user
-                    </a>"
+                <a href="/users/edit?id=${user.id}">
+                    change user
+                </a>"
                 </c:if>
             </td>
         </tr>
     </td>
     </c:forEach>
+    </c:if>
 </table>
 </body>
 </html>

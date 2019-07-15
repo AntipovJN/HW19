@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(value = {"/users/edit","/users/remove"})
+@WebFilter(value = {"/users/edit","/users/remove","/items/edit","/items/remove"})
 public class ResponceFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -22,7 +22,7 @@ public class ResponceFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (ResponseUtil.isAdminResponse((HttpServletRequest) request,
+        if (!ResponseUtil.isAdminResponse((HttpServletRequest) request,
                 (HttpServletResponse) response)) {
           ((HttpServletResponse) response).sendRedirect("/pokupka");
         }

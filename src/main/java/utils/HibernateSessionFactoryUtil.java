@@ -1,6 +1,7 @@
 package utils;
 
 import entity.Item;
+import entity.Offer;
 import entity.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -19,6 +20,7 @@ public class HibernateSessionFactoryUtil {
                 Configuration configuration = new Configuration().configure();
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(Item.class);
+                configuration.addAnnotatedClass(Offer.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

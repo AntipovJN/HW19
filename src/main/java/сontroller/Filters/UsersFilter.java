@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(value = {"/pokupka"})
+@WebFilter(value = {"/pokupka","/items"})
 public class UsersFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

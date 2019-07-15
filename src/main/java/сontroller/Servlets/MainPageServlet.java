@@ -24,7 +24,6 @@ public class MainPageServlet extends HttpServlet {
         if (ACCOUNT_SERVICE.isLogin(req)) {
             req.setAttribute("userName", SESSION_SERVICE.getUserFromSession(req).get().getLogin());
             req.setAttribute("users", ACCOUNT_SERVICE.getAll());
-            req.setAttribute("isAdmin", SESSION_SERVICE.isAdmin(req));
             req.getServletContext().getRequestDispatcher("/LoginMain.jsp").forward(req, resp);
         } else {
             req.getServletContext().getRequestDispatcher("/Main.jsp").forward(req, resp);

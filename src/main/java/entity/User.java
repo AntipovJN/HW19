@@ -22,6 +22,16 @@ public class User {
     private Boolean isAuthorized;
     @Column(name = "acesslevel")
     private String role;
+    @Column(name = "basket")
+    private String basket;
+
+    public String getBasket() {
+        return basket;
+    }
+
+    public void setBasket(String basket) {
+        this.basket = basket;
+    }
 
     public String getRole() {
         return role;
@@ -47,6 +57,7 @@ public class User {
         this.password = password;
         this.isAuthorized = false;
         this.role = role;
+        this.basket = "";
     }
 
     public String getLogin() {

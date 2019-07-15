@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class ResponseUtil {
 
-    private static final String MAIN_PAGE = "/pokupka";
     private final static SessionService SESSION_SERVICE = SessionServiceFactory.getInstance();
 
     public static boolean isAdminResponse(HttpServletRequest request,

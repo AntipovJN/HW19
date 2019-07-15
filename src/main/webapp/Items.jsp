@@ -4,7 +4,11 @@
     <title>Items</title>
 </head>
 <body>
-<c:if  test="${isAdmin==true}">
+<br/>
+<a href="/user/basket">
+    <input type="submit" value="Basket">
+</a>
+<c:if test="${isAdmin==true}">
     <a href="/additem">
         <input type="submit" value="Add Item"/>
     </a>
@@ -22,10 +26,19 @@
         <tr>
             <td>${item.price} UAH</td>
             <td>code: ${item.productCode}</td>
-            <c:if  test="${isAdmin==true}">
-            <td><a href = "/items/edit?id=${item.id}"> change item</a></td>
-            <td><a href = "/items/remove?id=${item.id}"> remove item</a></td>
-            </c:if>
+            <c:choose>
+                <c:when test="${isAdmin==true}">
+                    <td><a href="/items/edit?id=${item.id}"> change item</a></td>
+                    <td><a href="/items/remove?id=${item.id}"> remove item</a></td>
+                </c:when>
+                <c:otherwise>
+                    <td>
+                        <a href="/addToBasket?id=${item.id}">
+                            <button>Add to basket</button>
+                        </a>
+                    </td>
+                </c:otherwise>
+            </c:choose>
         </tr>
     </c:forEach>
 </table>

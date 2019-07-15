@@ -91,6 +91,7 @@ public class UserDaoImpl implements UserDao {
             user.setId(intermediateUser.getId());
             user.setAuthorized(intermediateUser.isAuthorized());
             user.setRole(intermediateUser.getRole());
+            user.setBasket(intermediateUser.getBasket());
             session.close();
             return user;
         } catch (NoSuchElementException ex) {
