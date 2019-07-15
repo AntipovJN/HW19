@@ -22,7 +22,7 @@ public class ResponceFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (ResponseUtil.isAdminResponse((HttpServletRequest) request,
+        if (!ResponseUtil.isAdminResponse((HttpServletRequest) request,
                 (HttpServletResponse) response)) {
           ((HttpServletResponse) response).sendRedirect("/pokupka");
         }
