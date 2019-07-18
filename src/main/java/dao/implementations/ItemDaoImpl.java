@@ -11,19 +11,7 @@ import java.util.List;
 
 public class ItemDaoImpl implements ItemDao {
 
-    private static ItemDaoImpl itemDao;
-
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
-
-    public static ItemDaoImpl instance() {
-        if (itemDao == null) {
-            itemDao = new ItemDaoImpl();
-        }
-        return itemDao;
-    }
-
-    private ItemDaoImpl() {
-    }
 
     public List<Item> getAll() {
         Session session = sessionFactory.openSession();

@@ -9,7 +9,7 @@ public class UserDaoFactory {
 
     public static UserDao getUserDaoHibernateImpl() {
         if (userDao == null) {
-            userDao = UserDaoImpl.instance();
+            userDao = new UserDaoImpl();
         }
         return userDao;
     }

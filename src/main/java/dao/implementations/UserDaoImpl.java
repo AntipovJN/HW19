@@ -15,18 +15,6 @@ public class UserDaoImpl implements UserDao {
 
     private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.getSessionFactory();
 
-    private static UserDaoImpl userDao;
-
-    public static UserDaoImpl instance() {
-        if (userDao == null) {
-            userDao = new UserDaoImpl();
-        }
-        return userDao;
-    }
-
-    private UserDaoImpl() {
-    }
-
     @Override
     public boolean addUser(String login, String password) {
         if (getUserByLogin(login) == null) {

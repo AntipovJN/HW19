@@ -24,7 +24,8 @@ public class SignInServlet extends HttpServlet {
         }
         req.setAttribute("process", "Sign in");
         req.setAttribute("action", "login");
-        req.getServletContext().getRequestDispatcher("/Authorization.jsp").forward(req, resp);
+        req.getServletContext().getRequestDispatcher("/Authorization.jsp")
+                .forward(req, resp);
     }
 
     @Override
@@ -32,8 +33,7 @@ public class SignInServlet extends HttpServlet {
             throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if (ACCOUNT_SERVICE.signIn(login, password)) {
-            resp.sendRedirect("/pokupka");
+        if (ACCOUNT_SERVICE.signIn(login, password)) { resp.sendRedirect("/pokupka");
         } else {
             req.setAttribute("isInvalid", "Invalid login or pass");
             req.setAttribute("process", "Sign In");
